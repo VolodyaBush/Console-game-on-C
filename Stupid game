@@ -1,0 +1,634 @@
+#include <iostream>
+#include <conio.h>
+#include <ctime>
+#include <Windows.h>
+#pragma warning (disable : 4996)
+#define S 25
+#define S2 11
+#define SIZE 10
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+bool Game, GameAgain = true; FILE* f2;
+using namespace std;
+void Record(int& record, int countP)
+{
+	if (record < countP)
+	{
+		f2 = fopen("D:\\r.txt", "w");
+		record = countP;
+		fprintf(f2, "%i", record);
+		fclose(f2);
+	}
+	cout << "\n Record :      " << record << "\n";
+
+}
+void Menu()
+{
+	cout << "\n 1) Почати гру " << "\n"
+		<< " 2) Розробник " << "\n"
+		<< " 3) Вихiд " << "\n\n";
+}
+void CountPrint(int record, int& countP, int FreezeCount, int hp)
+{
+	cout << "\n";
+	countP++;
+	cout << "\n Count :       " << countP << "\n";
+	SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 11));
+	cout << "\n FreezeCount : " << FreezeCount << "/1" << "\n";
+	SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 4));
+	cout << "\n HealthPoint : " << hp << "/3" << "\n";
+	SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+	Record(record, countP);
+}
+void bonus(int i, int j, int step, int& countL, int* r, int& countP, int& FreezeCount)
+{
+	if (countP <= 300)
+	{
+		if (j == step && i == (S2 - 1) && j == r[5] && i == (countL - 1))
+		{
+			countP += 25;
+			countL++;
+		}
+		if (j == step && i == (S2 - 1) && j == r[9] && i == (countL - 1))
+		{
+			if (FreezeCount == 0)
+				FreezeCount++;
+			countL++;
+		}
+	}
+	if (countP >= 300)
+	{
+		if (j == step && i == 0 && j == r[5] && i == (countL - 1))
+		{
+			countP += 25;
+			countL--;
+		}
+		if (j == step && i == 0 && j == r[9] && i == (countL - 1))
+		{
+			if (FreezeCount == 0)
+				FreezeCount++;
+			countL--;
+		}
+	}
+}
+void End1(int i, int j, int step, int& countL, int* r, int& hp)
+{
+	if (j == step && i == (S2 - 1) && j == r[0] && i == (countL - 1))
+	{
+		hp--;
+		countL++;
+	}
+	if (j == step && i == (S2 - 1) && j == r[1] && i == (countL + 1))
+	{
+		hp--;
+		countL++;
+	}
+	if (hp == 0)
+		Game = false;
+}
+void End2(int i, int j, int step, int& countL, int* r, int& hp)
+{
+	if (j == step && i == (S2 - 1) && j == r[0] && i == (countL - 1))
+	{
+		hp--;
+		countL++;
+	}
+	if (j == step && i == (S2 - 1) && j == r[1] && i == (countL + 1))
+	{
+		hp--;
+		countL++;
+	}
+	if (j == step && i == (S2 - 1) && j == r[2] && i == (countL + 2))
+	{
+		hp--;
+		countL++;
+	}
+	if (hp == 0)
+		Game = false;
+}
+void End3(int i, int j, int step, int& countL, int* r, int& hp)
+{
+	if (j == step && i == (S2 - 1) && j == r[0] && i == (countL - 1))
+	{
+		hp--;
+		countL++;
+	}
+	if (j == step && i == (S2 - 1) && j == r[1] && i == (countL + 1))
+	{
+		hp--;
+		countL++;
+	}
+	if (j == step && i == (S2 - 1) && j == r[2] && i == (countL + 2))
+	{
+		hp--;
+		countL++;
+	}
+	if (j == step && i == (S2 - 1) && j == r[3] && i == (countL + 3))
+	{
+		hp--;
+		countL++;
+	}
+	if (j == step && i == (S2 - 1) && j == r[4] && i == (countL))
+	{
+		hp--;
+		countL++;
+	}
+	if (hp == 0)
+		Game = false;
+}
+void End4(int i, int j, int step, int& countL, int* r, int& hp)
+{
+	if (j == step && i == 0 && j == r[0] && i == (countL - 1))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[1] && i == (countL - 1))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[2] && i == (countL - 2))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[3] && i == (countL - 1))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[4] && i == (countL))
+	{
+		hp--;
+		countL--;
+	}
+	if (hp == 0)
+		Game = false;
+}
+void End5(int i, int j, int step, int& countL, int* r, int& hp)
+{
+	if (j == step && i == 0 && j == r[0] && i == (countL - 1))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[1] && i == (countL - 1))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[2] && i == (countL - 1))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[3] && i == (countL - 1))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[4] && i == (countL - 2))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[6] && i == (countL - 2))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[7] && i == (countL - 2))
+	{
+		hp--;
+		countL--;
+	}
+	if (j == step && i == 0 && j == r[8] && i == (countL - 2))
+	{
+		hp--;
+		countL--;
+	}
+	if (hp == 0)
+		Game = false;
+}
+void L1(int i, int j, int& countL, int step, int* r, int countP)
+{
+	if (countL == S2 + 1)
+		countL = 0;
+	for (int i = 0; i < SIZE; i++)
+		if (countL == 0)
+			r[i] = rand() % ((S - 2) - 1 + 1) + 1;
+
+	if (countP <= 100)//lvl_1
+	{
+		if (j == r[0] && i == countL - 1)
+		{
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+			cout << '*';
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+		}
+		else
+			if (j == r[1] && i == countL + 1)
+			{
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+				cout << '*';
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+			}
+			else
+				if (j == r[5] && i == countL - 1)
+				{
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 4));
+					cout << '+';
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+				}
+				else
+					if (j == step && i == S2 - 1)
+					{
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 2));
+						cout << '&';
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+						countL++;
+					}
+					else
+						cout << " ";
+	}
+	if (countP > 100 && countP <= 200)//lvl_2
+	{
+		if (j == r[0] && i == countL - 1)
+		{
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+			cout << '*';
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+		}
+		else
+			if (j == r[1] && i == countL + 1)
+			{
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+				cout << '*';
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+			}
+			else
+				if (j == r[2] && i == countL + 2)
+				{
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+					cout << '*';
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+				}
+				else
+					if (j == r[5] && i == countL - 1)
+					{
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 4));
+						cout << '+';
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+					}
+					else
+						if (j == step && i == S2 - 1)
+						{
+							SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 2));
+							cout << '&';
+							SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+							countL++;
+						}
+						else
+							cout << " ";
+	}
+	if (countP > 200 && countP <= 300)//lvl_3
+	{
+		if (j == r[0] && i == countL - 1)
+		{
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+			cout << '*';
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+		}
+		else
+			if (j == r[1] && i == countL + 1)
+			{
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+				cout << '*';
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+			}
+			else
+				if (j == r[2] && i == countL + 2)
+				{
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+					cout << '*';
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+				}
+				else
+					if (j == r[3] && i == countL + 3)
+					{
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+						cout << '*';
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+					}
+					else
+						if (j == r[4] && i == countL)
+						{
+							SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+							cout << '*';
+							SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+						}
+						else
+							if (j == r[5] && i == countL - 1)
+							{
+								SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 4));
+								cout << '+';
+								SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+							}
+							else
+								if (j == r[9] && i == countL - 1)
+								{
+									SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 11));
+									cout << 'f';
+									SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+								}
+								else
+									if (j == step && i == S2 - 1)
+									{
+										SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 2));
+										cout << '&';
+										SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+										countL++;
+									}
+									else
+										cout << " ";
+	}
+}
+void L2(int i, int j, int& countL, int step, int* r, int countP)
+{
+	if (countL == -2)
+		countL = S2 - 1;
+	for (int i = 0; i < SIZE; i++)
+		if (countL == S2 - 1)
+			r[i] = rand() % ((S - 2) - 1 + 1) + 1;
+
+	if (countP > 300 && countP <= 400)//lvl turbo_1
+	{
+		if (j == r[0] && i == countL - 1)
+		{
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+			cout << '*';
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+		}
+		else
+			if (j == r[1] && i == countL - 1)
+			{
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+				cout << '*';
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+			}
+			else
+				if (j == r[2] && i == countL - 2)
+				{
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+					cout << '*';
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+				}
+				else
+					if (j == r[3] && i == countL - 1)
+					{
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+						cout << '*';
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+					}
+					else
+						if (j == r[4] && i == countL)
+						{
+							SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+							cout << '*';
+							SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+						}
+						else
+							if (j == r[5] && i == countL - 1)
+							{
+								SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 4));
+								cout << '+';
+								SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+							}
+							else
+								if (j == r[9] && i == countL - 1)
+								{
+									SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 11));
+									cout << 'f';
+									SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+								}
+								else
+									if (j == step && i == 0)
+									{
+										SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 2));
+										cout << '&';
+										SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+										countL--;
+									}
+									else
+										cout << " ";
+	}
+	//
+	if (countP > 400)//lvl turbo_2
+	{
+		if (j == r[0] && i == countL - 1)
+		{
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+			cout << '*';
+			SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+		}
+		else
+			if (j == r[1] && i == countL - 1)
+			{
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+				cout << '*';
+				SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+			}
+			else
+				if (j == r[2] && i == countL - 1)
+				{
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+					cout << '*';
+					SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+				}
+				else
+					if (j == r[3] && i == countL - 1)
+					{
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+						cout << '*';
+						SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+					}
+					else
+						if (j == r[4] && i == countL - 2)
+						{
+							SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+							cout << '*';
+							SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+						}
+						else
+							if (j == r[6] && i == countL - 2)
+							{
+								SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+								cout << '*';
+								SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+							}
+							else
+								if (j == r[7] && i == countL - 2)
+								{
+									SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+									cout << '*';
+									SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+								}
+								else
+									if (j == r[8] && i == countL - 2)
+									{
+										SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 14));
+										cout << '*';
+										SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+									}
+									else
+										if (j == r[5] && i == countL - 1)
+										{
+											SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 4));
+											cout << '+';
+											SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+										}
+										else
+											if (j == r[9] && i == countL - 1)
+											{
+												SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 11));
+												cout << 'f';
+												SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+											}
+											else
+												if (j == step && i == 0)
+												{
+													SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 2));
+													cout << '&';
+													SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 15));
+													countL--;
+												}
+												else
+													cout << " ";
+	}
+}
+void move(int& step, int countP, int& freeze, int& FreezeCount)
+{
+	int a = _kbhit();
+	char sw;
+	if (freeze == 0)
+	{
+		if (countP <= 99)
+			Sleep(100);
+		if (countP >= 100 && countP <= 200)
+			Sleep(75);
+		if (countP >= 200)
+			Sleep(50);
+	}
+	if (freeze != 0)
+	{
+		freeze--;
+		Sleep(100);
+	}
+	//a;
+	if (a != 0)
+		sw = _getch();
+	else
+		sw = ' ';
+	switch (sw)
+	{
+	case 'd':
+	{
+		if (step <= S - 3 && step >= 0)
+			step++;
+		break;
+	}
+	case 'a':
+	{
+		if (step <= S && step >= 1)
+			step--;
+		break;
+	}
+	case 'f':
+	{
+		if (FreezeCount == 1)
+		{
+			freeze = 50;
+			FreezeCount--;
+		}
+		break;
+	}
+	}
+}
+void map(int& step, int& countL, int* r, int& countP, int& record, int& FreezeCount, int& hp)
+{
+	system("cls");
+	for (int i = 0; i < S + 1; i++)
+		cout << '-';
+	cout << "\n";
+	for (int i = 0; i < S2; i++)
+	{
+		for (int j = 0; j < S; j++)
+		{
+			if (j == 0 || j == S - 1)
+				cout << "|";
+
+			if (countP <= 301)
+				L1(i, j, countL, step, r, countP);
+			else
+				L2(i, j, countL, step, r, countP);
+
+			bonus(i, j, step, countL, r, countP, FreezeCount);
+
+			if (countP <= 100)
+				End1(i, j, step, countL, r, hp);
+			if (countP > 100 && countP <= 200)
+				End2(i, j, step, countL, r, hp);
+			if (countP > 200 && countP <= 300)
+				End3(i, j, step, countL, r, hp);
+			if (countP > 300 && countP <= 400)
+				End4(i, j, step, countL, r, hp);
+			if (countP > 400)
+				End5(i, j, step, countL, r, hp);
+
+		}
+		cout << "\n";
+	}
+	for (int i = 0; i < S + 1; i++)
+		cout << "-";
+	CountPrint(record, countP, FreezeCount, hp);
+}
+int main()
+{
+	setlocale(LC_ALL, ("UKR"));
+	srand(time(0));
+	int sw, step, countL, r[SIZE], countP, record = 0, freeze, FreezeCount, hp; FILE* f;
+	Menu();
+	do
+	{
+		cin >> sw;
+		switch (sw)
+		{
+		case 1:
+		{
+			Game = true;
+			step = S2 + 1, countL = 0, r[SIZE], countP = 0, freeze = 0, FreezeCount = 0, hp = 3;
+			while (Game)
+			{
+				f = fopen("D:\\r.txt", "r");
+				fscanf(f, "%i", &record);
+				fclose(f);
+				map(step, countL, r, countP, record, FreezeCount, hp);
+				move(step, countP, freeze, FreezeCount);
+			}
+			Menu();
+			break;
+		}
+		case 2:
+		{
+			cout << " Volodya " << "\n";
+			break;
+		}
+		case 3:
+		{
+			GameAgain = false;
+			break;
+		}
+		}
+	} while (GameAgain);
+	return 0;
+}
